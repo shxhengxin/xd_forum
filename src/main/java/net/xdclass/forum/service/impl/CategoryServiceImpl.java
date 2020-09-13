@@ -18,4 +18,11 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> list() {
         return  categoryDao.list();
     }
+
+    @Override
+    public Category findById(int id) {
+        Category category = categoryDao.findById(id);
+        return  category;
+    }
+
 }

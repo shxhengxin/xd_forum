@@ -28,4 +28,11 @@ public class CategoryServlet extends BaseServlet {
         List<Category> list = categoryService.list();
         System.out.println(list.toString());
     }
+
+    public void findById(HttpServletRequest request, HttpServletResponse response) {
+        String idStr = request.getParameter("id");
+        int id = Integer.parseInt(idStr);
+        Category category = categoryService.findById(id);
+        System.out.println(category);
+    }
 }
