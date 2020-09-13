@@ -4,8 +4,8 @@
 - Name：archetypeCatalog
 - Value：internal
 ### 论坛相关依赖包
-```aidl
-<dependency>
+```java
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
@@ -56,4 +56,19 @@
       <artifactId>lombok</artifactId>
       <version>1.18.12</version>
     </dependency>
+```
+
+```
+
+      <!--专门用于打包配置文件到类路径  ps 放在<build>标签下-->
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.xml</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
 ```
