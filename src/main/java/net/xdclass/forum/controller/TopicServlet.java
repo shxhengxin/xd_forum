@@ -3,6 +3,7 @@ package net.xdclass.forum.controller;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import net.xdclass.forum.domain.Reply;
 import net.xdclass.forum.domain.Topic;
+import net.xdclass.forum.domain.User;
 import net.xdclass.forum.dto.PageDTO;
 import net.xdclass.forum.service.ReplyService;
 import net.xdclass.forum.service.TopicService;
@@ -52,5 +53,22 @@ public class TopicServlet extends BaseServlet{
         request.setAttribute("topic",topic);
         request.setAttribute("replyPage",pageDTO);
 
+    }
+
+    public void addTopic(HttpServletRequest request,HttpServletResponse response) {
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        if(loginUser == null ) {
+            request.setAttribute("msg","请登录");
+            //页面跳转 todo
+        }
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        int cId = Integer.parseInt(request.getParameter("c_id"));
+        Topic topic = topicService.addTopic(loginUser,title,content,cId);
+        if(topic != null) {
+            //发布主题成功
+        }else {
+            //发布主题失败
+        }
     }
 }
