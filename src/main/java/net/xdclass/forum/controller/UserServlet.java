@@ -38,6 +38,20 @@ public class UserServlet extends BaseServlet {
         final String phone = request.getParameter("phone");
         final String pwd = request.getParameter("pwd");
         final User user = userService.login(phone, pwd);
+        if(user != null) {
+            request.setAttribute("loginUsder",user);
+            //跳转页面 todo
+        }
         System.out.println(user.toString());
+        request.setAttribute("msg","用户名或密码错误");
     }
+
+    public void logout(HttpServletRequest request,HttpServletResponse response) {
+        request.getSession().invalidate();
+        //页面跳转 todo
+    }
+
+
+
+
 }
