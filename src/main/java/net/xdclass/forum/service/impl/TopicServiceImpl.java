@@ -39,7 +39,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public int addTopic(User loginUser, String title, String content, int cId) {
+    public int addTopic(User loginUser, String title, String content, int cId)  {
         Category category = categoryDao.findById(cId);
         if(category == null) return  0;
         Topic topic = new Topic();
@@ -54,7 +54,12 @@ public class TopicServiceImpl implements TopicService {
         topic.setcId(cId);
         topic.setUpdateTime(new Date());
         topic.setHot(0);
-        int rows =  topicDao.save(topic);
+        int rows = 0;
+        try {
+            rows = topicDao.save(topic);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rows;
     }
 }

@@ -63,7 +63,7 @@ public class TopicDao extends BaseDao{
         return  topicByIdInfo;
     }
 
-    public int save(Topic topic) {
+    public int save(Topic topic) throws Exception {
         String sql = "insert into topic (c_id,title,content,pv,user_id,username,user_img,create_time,update_time,hot,delete) values (?,?,?,?,?,?,?,?,?,?,?)";
         Object[] params = {
           topic.getcId(),topic.getTitle(),topic.getContent(),topic.getPv(),topic.getUserId(),
@@ -76,6 +76,7 @@ public class TopicDao extends BaseDao{
             rows = queryRunner.update(sql, params);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw  new Exception();
         }
         return  rows;
 
