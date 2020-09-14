@@ -59,6 +59,7 @@ public class TopicServlet extends BaseServlet{
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if(loginUser == null ) {
             request.setAttribute("msg","请登录");
+            return;
             //页面跳转 todo
         }
         String title = request.getParameter("title");
