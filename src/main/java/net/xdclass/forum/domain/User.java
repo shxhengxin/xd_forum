@@ -17,6 +17,7 @@ public class User {
     private int id;
     private String phone;
     private int sex;
+    private String pwd;
     private String img;
     private Date createTime;
     private int role;
