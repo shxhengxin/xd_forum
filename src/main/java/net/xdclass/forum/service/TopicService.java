@@ -8,5 +8,5 @@ public interface TopicService {
     PageDTO<Topic> listTopicPageByCid(int cId,int page,int pageSize);
     Topic findById(int topicId);
 
-    Topic addTopic(User loginUser, String title, String content, int cId);
+    int addTopic(User loginUser, String title, String content, int cId);
 }

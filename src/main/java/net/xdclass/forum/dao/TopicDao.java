@@ -63,7 +63,7 @@ public class TopicDao extends BaseDao{
         return  topicByIdInfo;
     }
 
-    public Topic save(Topic topic) {
+    public int save(Topic topic) {
         String sql = "insert into topic (c_id,title,content,pv,user_id,username,user_img,create_time,update_time,hot,delete) values (?,?,?,?,?,?,?,?,?,?,?)";
         Object[] params = {
           topic.getcId(),topic.getTitle(),topic.getContent(),topic.getPv(),topic.getUserId(),
@@ -73,14 +73,11 @@ public class TopicDao extends BaseDao{
 
         int rows = 0;
         try {
-            rows = queryRunner.execute(sql, params);
+            rows = queryRunner.update(sql, params);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        if(rows == 0) {
-            return  null;
-        }
-        return  topic;
+        return  rows;
 
     }
 }

@@ -39,9 +39,9 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Topic addTopic(User loginUser, String title, String content, int cId) {
+    public int addTopic(User loginUser, String title, String content, int cId) {
         Category category = categoryDao.findById(cId);
-        if(category == null) return  null;
+        if(category == null) return  0;
         Topic topic = new Topic();
         topic.setTitle(title);
         topic.setContent(content);
@@ -54,7 +54,7 @@ public class TopicServiceImpl implements TopicService {
         topic.setcId(cId);
         topic.setUpdateTime(new Date());
         topic.setHot(0);
-        Topic topicSave =  topicDao.save(topic);
-        return topicSave;
+        int rows =  topicDao.save(topic);
+        return rows;
     }
 }

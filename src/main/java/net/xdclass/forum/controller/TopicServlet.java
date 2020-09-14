@@ -64,8 +64,8 @@ public class TopicServlet extends BaseServlet{
         String title = request.getParameter("title");
         String content = request.getParameter("content");
         int cId = Integer.parseInt(request.getParameter("c_id"));
-        Topic topic = topicService.addTopic(loginUser,title,content,cId);
-        if(topic != null) {
+        int rows = topicService.addTopic(loginUser,title,content,cId);
+        if(rows == 0) {
             //发布主题成功
         }else {
             //发布主题失败
