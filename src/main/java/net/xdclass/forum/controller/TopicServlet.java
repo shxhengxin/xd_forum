@@ -66,10 +66,27 @@ public class TopicServlet extends BaseServlet{
         String content = request.getParameter("content");
         int cId = Integer.parseInt(request.getParameter("c_id"));
         int rows = topicService.addTopic(loginUser,title,content,cId);
-        if(rows == 0) {
+        if(rows == 1) {
             //发布主题成功
         }else {
             //发布主题失败
+        }
+    }
+
+    public void replyByTopicId(HttpServletRequest request,HttpServletResponse response) {
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        if(loginUser == null ) {
+            request.setAttribute("msg","请登录");
+            return;
+            //页面跳转 todo
+        }
+        int topicId = Integer.parseInt(request.getParameter("topic_id"));
+        String content = request.getParameter("content");
+        int rows = replyService.replyByTopicId(loginUser,topicId,content);
+        if(rows == 0) {
+            //发布回复成功
+        }else {
+            //发布回复失败
         }
     }
 }

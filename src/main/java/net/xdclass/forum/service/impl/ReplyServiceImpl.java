@@ -3,9 +3,11 @@ package net.xdclass.forum.service.impl;
 import net.xdclass.forum.dao.ReplyDao;
 import net.xdclass.forum.domain.Reply;
 import net.xdclass.forum.domain.Topic;
+import net.xdclass.forum.domain.User;
 import net.xdclass.forum.dto.PageDTO;
 import net.xdclass.forum.service.ReplyService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,5 +28,26 @@ public class ReplyServiceImpl implements ReplyService {
         PageDTO<Reply> pageDTO = new PageDTO<>(page,pageSize,totalRecordNum);
         pageDTO.setList(replyList);
         return  pageDTO;
+    }
+
+    @Override
+    public int replyByTopicId(User loginUser, int topicId, String content) {
+        int floor = replyDao.findLatestFloorByTopicId(topicId);
+        Reply reply = new Reply();
+        reply.setContent(content);
+        reply.setUpdateTime(new Date());
+        reply.setCreateTime(new Date());
+        reply.setFloor(floor + 1);
+        reply.setTopicId(topicId);
+        reply.setUsername(loginUser.getUsername());
+        reply.setUserImg(loginUser.getImg());
+        reply.setDelete(0);
+        int rows = 0;
+        try {
+            rows = replyDao.save(reply);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rows;
     }
 }

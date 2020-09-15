@@ -36,4 +36,53 @@ public class ReplyDao extends BaseDao{
         }
         return  list;
     }
+
+    /**
+     * @author shenhengxin
+     * @description 查找最新楼层
+     * @Date 21:19 2020/9/15
+     * @Param [topicId]
+     * @return int
+     */
+    public int findLatestFloorByTopicId(int topicId) {
+        Integer floor = null;
+        int defaultFloor = 0;
+        String sql = "select floor from reply where topic_id=? order by floor desc limit 1";
+        try {
+            floor = (Integer) queryRunner.query(sql,new ScalarHandler<>(),topicId);
+            if(floor == null){
+                return  defaultFloor;
+            }else {
+                return  floor.intValue();
+            }
+        } catch (Exception throwables) {
+            throwables.printStackTrace();
+        }
+        return  -1;
+    }
+
+    /***
+     * @author shenhengxin
+     * @description 保存回复内容
+     * @Date 21:19 2020/9/15
+     * @Param [reply]
+     * @return int
+     */
+    public int save(Reply reply) throws Exception {
+        String sql = "insert into reply (topic_id,floor,content,user_id,username,user_img,create_time,update_time,`delete`)" +
+                "values (?,?,?,?,?,?,?,?,?)";
+
+        Object [] params = {
+                reply.getTopicId(),reply.getFloor(),reply.getContent(),reply.getUserId(),reply.getUsername(),reply.getUserImg(),
+                reply.getCreateTime(),reply.getUpdateTime(),reply.getDelete()
+        };
+        int rows = 0;
+        try {
+            rows = queryRunner.update(sql, params);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new Exception();
+        }
+        return rows;
+    }
 }
