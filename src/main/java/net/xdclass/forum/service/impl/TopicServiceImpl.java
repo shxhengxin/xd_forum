@@ -62,4 +62,11 @@ public class TopicServiceImpl implements TopicService {
         }
         return rows;
     }
+
+    @Override
+    public void addOnePV(int topicId) {
+        Topic topic = topicDao.findById(topicId);
+        int newPV = topic.getPv()+1;
+        topicDao.updatePV(topicId,newPV,topic.getPv());
+    }
 }

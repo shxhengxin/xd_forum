@@ -15,6 +15,7 @@ import java.util.List;
  * @Date: 2020-09-13 16:12  //时间
  */
 public class TopicDao extends BaseDao{
+
     /***
      * @author shenhengxin
      * @description 根据cid查询总行数
@@ -81,4 +82,22 @@ public class TopicDao extends BaseDao{
         return  rows;
 
     }
+    /***
+     * @author shenhengxin
+     * @description
+     * @Date 19:40 2020/9/16
+     * @Param [topicId, newPV, pv]
+     * @return int
+     */
+    public  int updatePV(int topicId, int newPV, int oldPV) {
+        String sql = "update topic set pv=? where pv=? and id=?";
+        int rows = 0;
+        try {
+            rows = queryRunner.update(sql,newPV,oldPV);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return  rows;
+    }
+
 }

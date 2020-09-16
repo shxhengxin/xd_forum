@@ -9,4 +9,6 @@ public interface TopicService {
     Topic findById(int topicId);
 
     int addTopic(User loginUser, String title, String content, int cId);
+
+    void addOnePV(int topicId);
 }
