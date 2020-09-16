@@ -5,14 +5,18 @@ import net.xdclass.forum.domain.Reply;
 import net.xdclass.forum.domain.Topic;
 import net.xdclass.forum.domain.User;
 import net.xdclass.forum.dto.PageDTO;
+import net.xdclass.forum.service.CategoryService;
 import net.xdclass.forum.service.ReplyService;
 import net.xdclass.forum.service.TopicService;
+import net.xdclass.forum.service.impl.CategoryServiceImpl;
 import net.xdclass.forum.service.impl.ReplyServiceImpl;
 import net.xdclass.forum.service.impl.TopicServiceImpl;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @ClassName : TopicServlet  //类名
@@ -24,9 +28,10 @@ import javax.servlet.http.HttpServletResponse;
 public class TopicServlet extends BaseServlet{
     private TopicService topicService = new TopicServiceImpl();
     private ReplyService replyService = new ReplyServiceImpl();
+    private CategoryService categoryService = new CategoryServiceImpl();
     private  static  final  int pageSize = 2;
 
-    public void  list(HttpServletRequest request, HttpServletResponse response){
+    public void  list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int cId = Integer.parseInt(request.getParameter("c_id"));
         //默认第一页
         int page = 1;
@@ -36,7 +41,8 @@ public class TopicServlet extends BaseServlet{
         }
         PageDTO<Topic> topicPageDTO = topicService.listTopicPageByCid(cId, page, pageSize);
         request.setAttribute("topicPage",topicPageDTO);
-        System.out.println(topicPageDTO.toString());
+        request.setAttribute("categoryList",categoryService.list());
+        request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
     public void findDetailById(HttpServletRequest request, HttpServletResponse response) {
         int topicId = Integer.parseInt(request.getParameter("topic_id"));

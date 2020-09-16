@@ -17,5 +17,28 @@
 </head>
 <body>
 
+<div class="container">
+    <ul class="nav nav-tabs">
+        <c:forEach items="${categoryList}" var="category">
+            <li>
+                <a href="${pageContext.request.contextPath}/topic?method=list&c_id=${category.id}">${category.name}</a>
+            </li>
+        </c:forEach>
+        <c:choose>
+            <c:when test="${empty loginUser}">
+                <li style="float: right"><a href="${pageContext.request.contextPath}/user/register.jsp">注册</a></li>
+                <li style="float: right"><a href="${pageContext.request.contextPath}/user/login.jsp">登录</a></li>
+            </c:when>
+            <c:otherwise>
+                <li style="float: right"><a href="${pageContext.request.contextPath}/user?method=logout">注销</a></li>
+                <li style="float: right"><a href="#">${loginUser.username}</a></li>
+                <li style="float: right"><img src="${loginUser.img}" class="img-circle" width="25px" height="25px" style="margin-top: 8.5px"></li>
+                <li style="float: right"><a href="${pageContext.request.contextPath}/publish.jsp">发布主题</a></li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+</div>
+
+
 </body>
 </html>
