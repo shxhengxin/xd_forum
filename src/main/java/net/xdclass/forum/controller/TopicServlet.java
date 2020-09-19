@@ -72,11 +72,11 @@ public class TopicServlet extends BaseServlet{
 
     }
 
-    public void addTopic(HttpServletRequest request,HttpServletResponse response) {
+    public void addTopic(HttpServletRequest request,HttpServletResponse response) throws IOException {
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if(loginUser == null ) {
             request.setAttribute("msg","请登录");
-            return;
+            response.sendRedirect("/user/login.jsp");return;
             //页面跳转 todo
         }
         String title = request.getParameter("title");
@@ -85,25 +85,21 @@ public class TopicServlet extends BaseServlet{
         int rows = topicService.addTopic(loginUser,title,content,cId);
         if(rows == 1) {
             //发布主题成功
-        }else {
-            //发布主题失败
+            response.sendRedirect("/topic?method=list&c_id="+cId);
         }
     }
 
-    public void replyByTopicId(HttpServletRequest request,HttpServletResponse response) {
+    public void replyByTopicId(HttpServletRequest request,HttpServletResponse response) throws IOException {
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if(loginUser == null ) {
             request.setAttribute("msg","请登录");
+            response.sendRedirect("/user/login.jsp");
             return;
             //页面跳转 todo
         }
         int topicId = Integer.parseInt(request.getParameter("topic_id"));
         String content = request.getParameter("content");
         int rows = replyService.replyByTopicId(loginUser,topicId,content);
-        if(rows == 0) {
-            //发布回复成功
-        }else {
-            //发布回复失败
-        }
+        response.sendRedirect("/topic?method=findDetailById&topic_id="+topicId+"&page=1");
     }
 }

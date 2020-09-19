@@ -40,21 +40,26 @@ public class UserServlet extends BaseServlet {
         }
     }
 
-    public void login(HttpServletRequest request, HttpServletResponse response) {
+    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         final String phone = request.getParameter("phone");
         final String pwd = request.getParameter("pwd");
         final User user = userService.login(phone, pwd);
         if(user != null) {
-            request.setAttribute("loginUsder",user);
-            //跳转页面 todo
+            request.getSession().setAttribute("loginUser",user);
+            //跳转页面 // TODO: 2020/9/19
+            response.sendRedirect("/topic?method=list&c_id=1");
+        }else {
+            request.setAttribute("msg","用户名或密码错误");
+            request.getRequestDispatcher("/user/login.jsp").forward(request,response);
         }
-        System.out.println(user.toString());
-        request.setAttribute("msg","用户名或密码错误");
+
+
     }
 
-    public void logout(HttpServletRequest request,HttpServletResponse response) {
+    public void logout(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         request.getSession().invalidate();
-        //页面跳转 todo
+        //页面跳转 // TODO: 2020/9/19
+        response.sendRedirect("topic?method=list&c_id=1");
     }
 
 
