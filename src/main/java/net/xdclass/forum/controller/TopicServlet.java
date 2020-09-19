@@ -40,12 +40,14 @@ public class TopicServlet extends BaseServlet{
             page = Integer.parseInt(currentPage);
         }
         PageDTO<Topic> topicPageDTO = topicService.listTopicPageByCid(cId, page, pageSize);
+        System.out.println(topicPageDTO);
         request.setAttribute("topicPage",topicPageDTO);
-        request.setAttribute("categoryList",categoryService.list());
+        request.getSession().setAttribute("categoryList",categoryService.list());
         request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
-    public void findDetailById(HttpServletRequest request, HttpServletResponse response) {
+    public void findDetailById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int topicId = Integer.parseInt(request.getParameter("topic_id"));
+        System.out.println(topicId);
         //默认第一页
         int page = 1;
         String currentPage = request.getParameter("page");
@@ -66,6 +68,7 @@ public class TopicServlet extends BaseServlet{
         System.out.println(pageDTO.toString());
         request.setAttribute("topic",topic);
         request.setAttribute("replyPage",pageDTO);
+        request.getRequestDispatcher("/topic_detail.jsp").forward(request,response);
 
     }
 

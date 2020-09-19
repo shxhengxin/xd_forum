@@ -37,6 +37,42 @@
             </c:otherwise>
         </c:choose>
     </ul>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>标题</th>
+                <th>内容</th>
+                <th>作者</th>
+                <th>发布时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${topicPage.list}" var="topic">
+                <tr>
+                    <td>${topic.title}</td>
+                    <td>${topic.content}</td>
+                    <td>${topic.username}</td>
+                    <td>${topic.createTime}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/topic?method=findDetailById&topic_id=${topic.id}" >
+                            详情
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+    <ul class="pagination">
+        <li > <a href="#">&laquo;</a></li>
+        <c:if test="${topicPage.totalPage>0}">
+            <c:forEach var="i" begin="0" end="${topicPage.totalPage-1}" step="1">
+                <li><a href="${pageContext.request.contextPath}/topic?method=list&c_id=${param.c_id}&page=${i+1}">${i+1}</a></li>
+            </c:forEach>
+        </c:if>
+
+        <li > <a href="#">&raquo;</a></li>
+    </ul>
 </div>
 
 
